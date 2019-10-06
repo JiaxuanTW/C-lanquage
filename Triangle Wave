@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+
+    int test_case, a, f;
+    char space;
+    scanf("%d",&test_case);
+  //  scanf("%c",&space);
+
+    for(int i=0; i<test_case; i++){
+        scanf("%d%d", &a, &f);
+
+        for(int j=0; j<f; j++){
+
+            for(int k=a-1, l=1; k>0, l<a; k--, l++){
+                for(int m=0; m<k; m++){//print Space
+                    printf(" ");
+                }
+                for(int m=0; m<l; m++){
+                    printf("%d",l);
+                }
+                printf("\n");
+            }
+
+            for(int k=0; k<a; k++){
+                printf("%d",a);
+            }
+            printf("\n");
+
+            for(int k=a-1, l=1; k>0, l<a; k--, l++){
+                for(int m=0; m<l; m++){//print Space
+                    printf(" ");
+                }
+                for(int m=0; m<k; m++){
+                    printf("%d",k);
+                }
+                printf("\n");
+            }
+            if(j<f-1)
+                printf("\n");
+        }
+        if(i<test_case-1)
+            printf("\n");
+
+       // printf("finish a round\n");
+    }
+    //system("pause");
+    return 0;
+}
