@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main(){
+
+    int n, data, output, a1=0, a2=1;
+    scanf("%d",&n);
+
+    for(int i=0; i<n; i++){
+        scanf("%d",&data);
+        if(data>30 || data<0)
+            printf("ERROR\n");
+        else{
+            if(data==0)
+                printf("0\n");
+            else if(data==1)
+                printf("1\n");
+            else{
+                for(int j=0; j<data-1; j++){
+                    output = a1 + a2;
+                    //printf("%d, ",output);
+                    a1 = a2;
+                    a2 = output;
+                }
+                a1=0; a2=1;
+                printf("%d\n",output);
+            }
+        }
+    }
+    return 0;
+}
