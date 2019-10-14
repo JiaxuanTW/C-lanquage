@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning (disable:4996)
+
+int main() {
+	
+	int d, c, r;
+	bool flag;
+
+	do {
+		flag = false;
+		printf("請輸入菱形對角線長度(3、5、7、9):");
+		scanf("%d", &d);
+		if (d % 2 == 0 || d > 9) {
+			printf("輸入錯誤!\n");
+			flag = true;
+		}
+	} while (flag);
+
+	do {
+		flag = false;
+		printf("輸入行數(2~10):");
+		scanf("%d", &c);
+		if (c < 2 || c>10) {
+			printf("輸入錯誤!\n");
+			flag = true;
+		}
+	} while (flag);
+
+	do {
+		flag = false;
+		printf("輸入列數(2~10):");
+		scanf("%d", &r);
+		if (r < 2 || r>10) {
+			printf("輸入錯誤!\n");
+			flag = true;
+		}
+	} while (flag);
+
+	printf("\n");
+
+	for (int i = 1; i <= r; i++) { //印出r列
+
+		
+		for (int j = 1; j <= (d - 1) / 2; j++) { 
+
+			int magic = ( d  - (j * 2 - 1))/2;
+
+			for (int l = 1; l <= c; l++) {	//上排c個三角形
+				for (int k = 1;k <= magic;k++) printf(" ");
+				for (int k = 1;k <= (j * 2 - 1);k++) printf("*");
+				for (int k = 1;k <= magic;k++) printf(" ");
+				printf(" ");
+			}
+			printf("\n");
+		}
+		
+		
+		for (int j = 1; j <= d*c + (c - 1); j++) { //中間行
+		
+			if (j % (d + 1) == 0) 
+				printf(" ");
+			else 
+				printf("*");
+		}
+
+		printf("\n"); //菱形中線跳行
+
+		for (int j = (d - 1) / 2; j >= 1; j--) {
+
+			int magic = (d - (j * 2 - 1)) / 2;
+
+			for (int l = 1; l <= c; l++) {	//下排c個三角形
+				for (int k = 1;k <= magic;k++) printf(" ");
+				for (int k = 1;k <= (j * 2 - 1);k++) printf("*");
+				for (int k = 1;k <= magic;k++) printf(" ");
+				printf(" ");
+			}
+			printf("\n"); 
+		}
+		printf("\n"); //換列跳行
+	}
+
+	system("pause");
+	return 0;
+}
