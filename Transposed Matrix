@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning (disable:4996)
+
+int main() {
+	
+	int row, colume;
+	int a[10][10];
+
+	printf("請輸入列、行: ");
+	scanf("%d%d", &row, &colume);
+	printf("請輸入矩陣\n");
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < colume; j++) {
+			scanf("%d", &a[i][j]);
+		}
+	}
+
+	printf("檢查\n");
+	
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < colume; j++) {
+			printf("%d ", a[i][j]);
+		}
+		printf("\n");
+	}
+
+	printf("轉置矩陣\n");
+
+	for (int i = 0; i < colume; i++) {
+		for (int j = 0; j < row; j++) {
+			printf("%d ", a[j][i]);
+		}
+		printf("\n");
+	}
+
+	system("pause");
+	return 0;
+}
