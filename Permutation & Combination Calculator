@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning (disable:4996)
+
+long factorial(int n) {
+	if (n == 1)
+		return 1;
+	else
+		return n * factorial(n - 1);
+}
+
+long combination(int m, int n) {
+	return factorial(m) / (factorial(n)*factorial(m - n));
+}
+
+long permutation(int m, int n) {
+	return factorial(m) / factorial(n);
+}
+
+int main() {
+
+	
+	int m, n, choice;
+
+	printf("【排列組合計算器】\n\n");
+	
+	while (1) {
+		printf("請選擇要計算排列(1)組合(2):");
+		scanf("%d", &choice);
+		if (choice == 1 || choice == 2)
+			break;
+		else
+			printf("輸入錯誤\n");
+	}
+
+	printf("請輸入m,n:");
+	scanf("%d%d", &m, &n);
+
+	if (choice == 1)
+		printf("排列方法有%d種\n\n", permutation(m, n));
+	else
+		printf("組合方法有%d種\n\n", combination(m, n));
+
+	system("pause");
+	return 0;
+}
