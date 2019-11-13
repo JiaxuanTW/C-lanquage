@@ -1,0 +1,39 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+
+	int n, counter = 0 ;
+	int elements[101], painted[101] = { 0 };
+	int divide[101];
+
+	cin >> n;
+
+	for (int i = 0; i < n; i++)
+		cin >> elements[i];
+
+	for (int i = 2; i <= 100; i++) {
+		for (int j = 0; j < n; j++) {
+			if (painted[j] == 0 && elements[j] % i == 0) {
+				//cout << "Elements:" << elements[j] << " Prime:" << i  << endl;
+				divide[counter] = i;
+				painted[j] = 1;
+				counter++;
+				//cout << "counter:" << counter << endl;
+			}
+		}
+		if (counter == n)
+			break;
+	}
+
+	int difference = 1;
+	for (int i = 0; i < n-1; i++) {
+		if (divide[i] != divide[i + 1])
+			difference++;
+	}
+
+	cout << difference << endl;
+	system("pause");
+	return 0;
+}
