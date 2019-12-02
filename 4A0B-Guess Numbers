@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#pragma warning (disable:4996)
+
+int main() {
+
+	srand(time(NULL));
+	
+	char PlayAgain[10];
+	char input[10];
+	
+	int num[4] = { 0 };
+
+	do {
+		int Correct = 0;
+		int counter = 0;
+
+		num[0] = rand() % 10;
+		num[1] = rand() % 10;
+		while (num[1] == num[0])
+			num[1] = rand() % 10;
+		num[2] = rand() % 10;
+		while (num[2] == num[0] || num[2] == num[1])
+			num[2] = rand() % 10;
+		num[3] = rand() % 10;
+		while (num[3] == num[0] || num[3] == num[1] || num[3] == num[2])
+			num[3] = rand() % 10;
+
+		/*for (int i = 0; i < 4; i++)
+			printf("%d", num[i]);
+		printf("\n");*/
+
+		while (Correct == 0) {
+			
+			int LenError = 0;
+			int FormatError = 0;
+			Correct = 0;
+			printf(">> ");
+			scanf("%s", input);
+			if (strlen(input) != 4) {
+				printf("INPUT ERROR!\n");
+				LenError = 1;
+			}
+			if (LenError == 0) {
+				for (int x = 0; x < 4; x++) {
+					for (int y = 0; y < 4; y++) {
+						if (input[x] == input[y])
+							counter++;
+					}
+				}
+				if (counter > 4) {
+					printf("INPUT ERROR!\n");
+					FormatError = 1;
+				}
+			}
+			counter = 0;
+			//Comparison
+			int A = 0, B = 0, all = 0;
+			for (int i = 0; i < 4; i++) {
+				if (input[i] - 48 == num[i])
+					A++;
+			}
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					if (input[i] - 48 == num[j])
+						all++;
+				}
+			}
+			B = all - A;
+			
+			if (A == 4) {
+				Correct = 1;
+				printf("YOU WIN!\n");
+			}
+			if (FormatError == 0 && LenError == 0 && Correct == 0)
+				printf("%dA%dB\n", A, B);
+		}
+
+		do{
+			printf("Play again? (Y,N) ");
+			scanf("%s", PlayAgain);
+		} while (PlayAgain[0]!=89 && PlayAgain[0]!=78);
+
+	} while (PlayAgain[0] == 89);
+
+	system("pause");
+	return 0;
+}
