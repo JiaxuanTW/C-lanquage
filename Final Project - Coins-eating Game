@@ -1,0 +1,612 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <Windows.h>
+#include <time.h>
+#pragma warning (disable:4996)
+
+void swap(int *a, int *b);
+void goUp(int *x, int *y);
+void goDown(int *x, int *y);
+void goLeft(int *x, int *y);
+void goRight(int *x, int *y);
+int opening();
+void color(short x);
+void SaveRecord();
+void initiate();
+void Records();
+
+int score1, score2;
+int step1, step2;
+int amount_of_coins;
+int p1_positionX, p1_positionY = 1;
+int p2_positionX, p2_positionY = 18;
+int IsFirstRound;
+
+int maze[20][20] = {
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+	{ 1,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1 },
+	{ 1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,0,1 },
+	{ 1,0,1,1,1,0,0,0,1,1,0,1,1,0,0,0,1,0,0,1 },
+	{ 1,0,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1,0,1,1 },
+	{ 1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1 },
+	{ 1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1 },
+	{ 1,0,1,0,0,0,1,0,1,0,1,1,0,0,0,0,1,0,0,1 },
+	{ 1,0,1,0,9,0,1,0,0,0,0,0,0,1,1,0,1,0,1,1 },
+	{ 1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1,0,0,0,1 },
+	{ 1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0,1 },
+	{ 1,0,0,0,0,1,0,1,1,1,1,0,1,1,0,0,0,0,0,1 },
+	{ 1,1,0,1,1,1,0,1,1,0,0,0,0,1,0,9,0,1,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1 },
+	{ 1,0,0,0,1,0,1,1,0,1,0,1,0,1,0,1,1,0,0,1 },
+	{ 1,0,1,0,1,0,1,0,1,1,0,1,0,1,0,1,1,0,0,1 },
+	{ 1,0,1,1,1,0,1,0,0,1,0,1,1,1,0,1,0,1,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1 },
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
+};
+
+/*
+	[maze code]
+	0-road
+	1-wall
+	2-player1
+	3-player2
+	4-coin
+	8-Empty Chance Box
+	9-Chance box
+*/
+
+int main() {
+
+	system("title Final Project");
+	system("color A");
+	srand(time(NULL));
+
+	char input; //for moving player
+	while (1) {
+		initiate();
+		switch (opening()) {
+		case 1:
+			system("cls");
+			color(7);
+			printf("\n[Game Rules]\n\n");
+			printf("Control\n");
+			printf("Player1 move with w, s, a, d for up, down, left, and right.\n");
+			printf("Player2 move with 5, 1, 2, 3 for up, down, left, and right respectively.\n\n");
+			printf("Target\n");
+			printf("After all coins are eaten, the one who has a higher score wins.\n");
+			printf("Note: There're 2 Chance Box in the map, open it you can get at most 10 coins.\n");
+			printf("But if you not lucky enough, at most 10 coins will be taken.\n\n");
+			system("pause");
+			color(2);
+			system("cls");
+
+			while (1) {
+
+				for (int i = 0; i < 20; i++) {
+					for (int j = 0; j < 20; j++) {
+
+						if (maze[i][j] == 1)
+							printf("■");
+						else if (maze[i][j] == 0)
+							printf("  ");
+						else if (maze[i][j] == 2) {
+							color(7);
+							printf("●");
+							color(2);
+						}
+						else if (maze[i][j] == 3) {
+							color(7);
+							printf("○");
+							color(2);
+						}
+						else if (maze[i][j] == 4)
+							printf("＊");
+						else if (maze[i][j] == 9) {
+							color(6);
+							printf("■");
+							color(2);
+						}
+						else if (maze[i][j] == 8) {
+							color(14);
+							printf("■");
+							color(2);
+						}
+
+						if (i == 3 && j == 19)
+							printf("\t[Score Board]");
+						if (i == 5 && j == 19)
+							printf("\tPlayer1:%d", score1);
+						if (i == 6 && j == 19)
+							printf("\tPlayer2:%d", score2);
+						if (i == 7 && j == 19)
+							printf("\tRemained Coins:%d", amount_of_coins);
+						if (i == 10 && j == 19)
+							printf("\t[Steps]");
+						if (i == 12 && j == 19)
+							printf("\tPlayer1:%d", step1);
+						if (i == 13 && j == 19)
+							printf("\tPlayer2:%d", step2);
+					}
+					printf("\n");
+				}
+
+				if (IsFirstRound == 1) {
+					printf("\nPlease enter the amount of coins (5<=Coins<=190):");
+					int tempCounter;
+					scanf("%d", &tempCounter);
+					if (tempCounter > 4 && tempCounter < 191) {
+						amount_of_coins = tempCounter;
+						int tempX, tempY;
+						while (tempCounter) {
+							tempX = rand() % 18 + 1;
+							tempY = rand() % 18 + 1;
+							if (maze[tempX][tempY] == 0) {
+								maze[tempX][tempY] = 4;
+								tempCounter--;
+							}
+						}
+						IsFirstRound = 0;
+					}
+					else {
+						printf("Error!\n"); //amount setting error!
+						Sleep(1000);
+					}
+				}
+				else {
+					if (amount_of_coins == 0) {
+						color(14);
+						printf("\nGAME OVER  ");
+						if (score1 > score2)
+							printf("Player1 Wins!  ");
+						else if (score1 < score2)
+							printf("Player2 Wins!  ");
+						else
+							printf("Tie!\n");
+						break;
+					}
+
+					input = getch();
+
+					switch (input) {
+					case 'W':
+					case 'w':
+						goUp(&p1_positionX, &p1_positionY);
+						break;
+					case 'S':
+					case 's':
+						goDown(&p1_positionX, &p1_positionY);
+						break;
+					case 'A':
+					case 'a':
+						goLeft(&p1_positionX, &p1_positionY);
+						break;
+					case 'D':
+					case 'd':
+						goRight(&p1_positionX, &p1_positionY);
+						break;
+					case 72:
+					case '5':
+						goUp(&p2_positionX, &p2_positionY);
+						break;
+					case 80:
+					case '2':
+						goDown(&p2_positionX, &p2_positionY);
+						break;
+					case 75:
+					case '1':
+						goLeft(&p2_positionX, &p2_positionY);
+						break;
+					case 77:
+					case '3':
+						goRight(&p2_positionX, &p2_positionY);
+						break;
+					}
+				}
+				system("cls");
+			}
+
+			Sleep(3000);
+			system("pause");
+			char EndSelect;
+			printf("\nSave the Record? Yes(Press y) / No(Press any key)\n");
+			EndSelect = getch();
+			if (EndSelect == 'y') {
+				SaveRecord();
+				printf("Saving... ");
+				Sleep(3000);
+				printf("Complete!\n");
+			}
+			color(2);
+			printf("\n(Press any key to continue!)\n");
+			EndSelect = getch();
+			system("cls");
+			break;
+		case 2:
+			system("cls");
+			color(7);
+			printf("Game Records\n\n");
+			Records();
+			system("cls");
+			color(2);
+			break;
+		case 3:
+			return 0;
+		}
+	}
+	return 0;
+}
+
+void swap(int *a, int *b) {
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void goUp(int *x, int *y) {
+	if (*x < 19 && *x > 0 && *y < 19 && *y > 0)
+		if (maze[*x - 1][*y] == 0) {
+			if (maze[*x][*y] == 2)
+				step1++;
+			else
+				step2++;
+			swap(&maze[*x - 1][*y], &maze[*x][*y]);
+			(*x)--;
+		}
+		else if (maze[*x - 1][*y] == 4) {
+			if (maze[*x][*y] == 2) {
+				score1++;
+				step1++;
+			}
+			else {
+				score2++;
+				step2++;
+			}
+			maze[*x - 1][*y] = 0;
+			swap(&maze[*x - 1][*y], &maze[*x][*y]);
+			(*x)--;
+			amount_of_coins--;
+		}
+		else if (maze[*x - 1][*y] == 9) {
+			if (maze[*x][*y] == 2) {
+				score1 = score1 + rand() % 21 - 10;
+				step1++;
+			}
+			else {
+				score2 = score2 + rand() % 21 - 10;
+				step2++;
+			}
+			maze[*x - 1][*y] = 8;
+		}
+}
+
+void goDown(int *x, int *y) {
+	if (*x < 19 && *x > 0 && *y < 19 && *y > 0)
+		if (maze[*x + 1][*y] == 0) {
+			if (maze[*x][*y] == 2)
+				step1++;
+			else
+				step2++;
+			swap(&maze[*x + 1][*y], &maze[*x][*y]);
+			(*x)++;
+		}
+		else if (maze[*x + 1][*y] == 4) {
+			if (maze[*x][*y] == 2) {
+				score1++;
+				step1++;
+			}
+			else {
+				score2++;
+				step2++;
+			}
+			maze[*x + 1][*y] = 0;
+			swap(&maze[*x + 1][*y], &maze[*x][*y]);
+			(*x)++;
+			amount_of_coins--;
+		}
+		else if (maze[*x + 1][*y] == 9) {
+			if (maze[*x][*y] == 2) {
+				score1 = score1 + rand() % 21 - 10;
+				step1++;
+			}
+			else {
+				score2 = score2 + rand() % 21 - 10;
+				step2++;
+			}
+			maze[*x + 1][*y] = 8;
+		}
+}
+
+void goLeft(int *x, int *y) {
+	if (*x < 19 && *x > 0 && *y < 19 && *y > 0)
+		if (maze[*x][*y - 1] == 0) {
+			if (maze[*x][*y] == 2)
+				step1++;
+			else
+				step2++;
+			swap(&maze[*x][*y - 1], &maze[*x][*y]);
+			(*y)--;
+		}
+		else if (maze[*x][*y - 1] == 4) {
+			if (maze[*x][*y] == 2) {
+				score1++;
+				step1++;
+			}
+			else {
+				score2++;
+				step2++;
+			}
+			maze[*x][*y - 1] = 0;
+			swap(&maze[*x][*y - 1], &maze[*x][*y]);
+			(*y)--;
+			amount_of_coins--;
+		}
+		else if (maze[*x][*y - 1] == 9) {
+			if (maze[*x][*y] == 2) {
+				score1 = score1 + rand() % 21 - 10;
+				step1++;
+			}
+			else {
+				score2 = score2 + rand() % 21 - 10;
+				step2++;
+			}
+			maze[*x][*y-1] = 8;
+		}
+}
+
+void goRight(int *x, int *y) {
+	if (*x < 19 && *x > 0 && *y < 19 && *y > 0)
+		if (maze[*x][*y + 1] == 0) {
+			if (maze[*x][*y] == 2)
+				step1++;
+			else
+				step2++;
+			swap(&maze[*x][*y + 1], &maze[*x][*y]);
+			(*y)++;
+		}
+		else if (maze[*x][*y + 1] == 4) {
+			if (maze[*x][*y] == 2) {
+				score1++;
+				step1++;
+			}
+			else {
+				score2++;
+				step2++;
+			}
+			maze[*x][*y + 1] = 0;
+			swap(&maze[*x][*y + 1], &maze[*x][*y]);
+			(*y)++;
+			amount_of_coins--;
+		}
+		else if (maze[*x][*y + 1] == 9) {
+			if (maze[*x][*y] == 2) {
+				score1 = score1 + rand() % 21 - 10;
+				step1++;
+			}
+			else {
+				score2 = score2 + rand() % 21 - 10;
+				step2++;
+			}
+			maze[*x][*y + 1] = 8;
+		}
+}
+
+int opening()
+{
+	for (int i = 0; i<25; i++) {
+		printf("■");
+		Sleep(15);
+	}
+	printf("\n");
+	for (int i = 0; i<7; i++) {
+		printf("                                                ■\n");
+		Sleep(15);
+	}
+	for (int i = 0; i<25; i++) {
+		for (int j = 24 - i; j>0; j--)
+			printf("  ");
+		for (int j = i + 1; j>0; j--)
+			printf("■");
+		if (i != 24) {
+			system("cls");
+			for (int i = 0; i<25; i++)
+				printf("■");
+			printf("\n");
+			for (int i = 0; i<7; i++)
+				printf("                                                ■\n");
+		}
+	}
+	printf("\n");
+	for (int i = 0; i<8; i++) {
+		system("cls");
+		printf("■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+		for (int j = 0; j<7 - i; j++)
+			printf("                                                ■\n");
+		for (int j = 0; j<i; j++)
+			printf("■                                              ■\n");
+		printf("■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+	}
+	Sleep(300);
+
+	int select = 1;
+	int IsEnter = 0;
+	while (!IsEnter) {
+
+		system("cls");
+		color(2);
+		printf("■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+		printf("■                                              ■\n");
+		printf("■  ■■■      ■■    ■    ■    ■■    ■  ■\n");
+		printf("■  ■    ■  ■    ■  ■■  ■  ■        ■  ■\n");
+		printf("■  ■■■    ■■■■  ■  ■■  ■  ■■  ■  ■\n");
+		printf("■  ■    ■  ■    ■  ■    ■  ■    ■      ■\n");
+		printf("■  ■■■    ■    ■  ■    ■    ■■    ■  ■\n");
+		printf("■                                              ■\n");
+		printf("■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+		color(7);
+		printf("\n                     【MENU】\n\n");
+		switch (select) {
+		case 1:
+			printf("                   Start Game     <-\n");
+			printf("                   Highest Record\n");
+			printf("                   Leave\n");
+			break;
+		case 2:
+			printf("                   Start Game\n");
+			printf("                   Highest Record <-\n");
+			printf("                   Leave\n");
+			break;
+		case 3:
+			printf("                   Start Game\n");
+			printf("                   Highest Record\n");
+			printf("                   Leave          <-\n");
+			break;
+		}
+		
+		//system("pause");
+		switch (getch()) {
+		case 224:
+			switch (getch()) {
+			case 72:
+				if(select>1)
+					select--;
+				break;
+			case 80:
+				if(select<3)
+					select++;
+				break;
+			}
+			break;
+		case 13:
+			IsEnter = 1;
+			color(2);
+			return select;
+		}
+	}
+}
+
+void color(short x)
+{
+	if (x >= 0 && x <= 15)
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), x);
+	else
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+}
+
+void SaveRecord()
+{
+	int round;
+	int Max;
+
+	char name1[20];
+	char name2[20];
+	char max_name[20];
+	printf("Enter Player1's Name:");
+	scanf("%s", name1);
+	printf("Enter Player2's Name:");
+	scanf("%s", name2);
+
+	FILE *fptr = fopen("record.txt", "r+");
+	if (fptr == NULL) {
+		FILE *fptr2 = fopen("record.txt", "w+");
+		if (score1 > score2) {
+			Max = score1;
+			strcpy(max_name, name1);
+		}
+		else {
+			Max = score2;
+			strcpy(max_name, name2);
+		}
+		fprintf(fptr2, "1 %d %d %d\n%s %s\n%s\n", score1, score2, Max, name1, name2, max_name);
+		fprintf(fptr2, "-1\n");
+		fclose(fptr2);
+	}
+	else {
+
+		int temp;
+		int cur_max;
+		char temp_name[20];
+
+		while (1) {
+
+			fscanf(fptr, "%d", &temp);
+			if (temp == -1)
+				break;
+			else
+				round = temp;
+			fscanf(fptr, "%d%d%d%s%s%s", &temp, &temp, &cur_max, temp_name, temp_name, max_name);
+		}
+
+		fseek(fptr, -4, SEEK_END);
+		fprintf(fptr, "%d %d %d ", round + 1, score1, score2);
+
+		if (score1 > score2) {
+			Max = score1;
+			if (Max > cur_max) {
+				cur_max = Max;
+				strcpy(max_name, name1);
+			}
+		}
+		else {
+			Max = score2;
+			if (Max > cur_max) {
+				cur_max = Max;
+				strcpy(max_name, name2);
+			}
+		}
+		fprintf(fptr, "%d\n%s %s\n%s\n", cur_max, name1, name2, max_name);
+		fprintf(fptr, "-1\n");
+		fclose(fptr);
+	}
+}
+
+void initiate() {
+	p1_positionX = 1, p1_positionY = 1;
+	p2_positionX = 18, p2_positionY = 18;
+	IsFirstRound = 1;
+	amount_of_coins = 0;
+	score1 = 0; score2 = 0;
+	step1 = 0; step2 = 0;
+
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+			if (maze[i][j] != 1)
+				maze[i][j] = 0;
+
+	maze[1][1] = 2;
+	maze[18][18] = 3;
+	maze[12][15] = 9;
+	maze[8][4] = 9;
+}
+
+void Records() {
+	
+	FILE *fptr = fopen("record.txt", "r");
+	char name1[20];
+	char name2[20];
+	char Max_name[20];
+	int round, Max, temp;
+	int record1, record2;
+
+	if (fptr == NULL)
+		printf("No Records!\n");
+	else {
+		while (1) {
+			fscanf(fptr, "%d", &temp);
+			if (temp == -1)
+				break;
+			else {
+				round = temp;
+				fscanf(fptr, "%d%d%d%s%s%s", &record1, &record2, &Max, name1, name2, Max_name);
+				printf("[Round:%d]\n\nPlayer1: %s\nscore:%d\nPlayer2: %s\nscore:%d\n\n", round, name1, record1, name2, record2);
+			}
+		}
+		printf("==================================================\n\n");
+		printf("Highest Score of All Time\n\n");
+		printf("The Golden King: %s\nscore: %d\n", Max_name, Max);
+		fclose(fptr);
+	}
+	printf("\n(Press any key to continue!)\n");
+	getch();
+}
