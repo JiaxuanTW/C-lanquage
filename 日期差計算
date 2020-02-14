@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#pragma warning (disable:4996)
+
+int leapYear(int x){
+
+	if ((x % 4) == 0 && (x % 100) != 0 || (x % 400) == 0)
+		return 1;
+	else
+		return 0;
+}
+
+void swap(int *a, int *b) {
+
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+int main() {
+	
+	int normalYearDays[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+	int leapYearDays[12] = { 31,29,31,30,31,30,31,31,30,31,30,31 };
+	int year1, month1, day1;
+	int year2, month2, day2;
+	int result;
+
+	while (scanf("%d", &year1) != EOF) {
+		
+		result = 0;
+		scanf("%d%d", &month1, &day1);
+		scanf("%d%d%d", &year2, &month2, &day2);
+
+		if (year1 > year2) {
+			swap(&year1, &year2);
+			swap(&month1, &month2);
+			swap(&day1, &day2);
+		}
+		else if (year1 == year2) {
+			if (month1 > month2) {
+				swap(&year1, &year2);
+				swap(&month1, &month2);
+				swap(&day1, &day2);
+			}
+			else if (month1 == month2) {
+				if (day1 > day2) {
+					swap(&year1, &year2);
+					swap(&month1, &month2);
+					swap(&day1, &day2);
+				}
+			}
+		}
+
+		//Year
+		for (int i = year1 + 1; i < year2; i++) {
+			if (leapYear(i) == 1)
+				result += 366;
+			else
+				result += 365;
+		}
+
+		//Month
+		if (year1 != year2) {
+			if (leapYear(year1))
+				for (int i = month1; i < 12; i++)
+					result += leapYearDays[i];
+			else
+				for (int i = month1; i < 12; i++)
+					result += normalYearDays[i];
+
+			if (leapYear(year2))
+				for (int i = 0; i < month2 - 1; i++)
+					result += leapYearDays[i];
+			else
+				for (int i = 0; i < month2 - 1; i++)
+					result += normalYearDays[i];
+		}
+		else {
+			if (leapYear(year1))
+				for (int i = month1; i < month2 - 1; i++)
+					result += leapYearDays[i];
+			else
+				for (int i = month1; i < month2 - 1; i++)
+					result += normalYearDays[i];
+		}
+
+		//Day
+		if (year1 == year2 && month1 == month2) {
+			for (int i = day1; i < day2; i++)
+				result++;
+		}
+		else {
+			if (leapYear(year1))
+				for (int i = day1; i <= leapYearDays[month1 - 1]; i++)
+					result++;
+			else
+				for (int i = day1; i <= normalYearDays[month1 - 1]; i++)
+					result++;
+
+			for (int i = 1; i < day2; i++)
+				result++;
+		}
+
+		printf("%d\n", result);
+	}
+	//system("pause");
+	return 0;
+}
