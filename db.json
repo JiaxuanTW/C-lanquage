@@ -1,1 +1,109 @@
-[{"dept": "SO", "id": "A033", "target": "1", "name": " 資產配置與信託規劃實務", "point": "2", "limit": [], "compulsory": false, "teacher": "蔡宗廷", "location": "B01-108", "time": [[5, 9], [5, 10]]}, {"dept": "SO", "id": "A034", "target": "1", "name": " 個人理財與投資", "point": "2", "limit": ["****51", "****52", "****56", "****55", "****11", "****12", "****15", "****17", "****18", "****21", "****22", "****23", "****41", "****61", "****42", "****43"], "compulsory": false, "teacher": "黃旭輝", "location": "M01-102", "time": [[3, 7], [3, 8]]}, {"dept": "SO", "id": "A118", "target": "1", "name": " 理財與人生", "point": "2", "limit": [], "compulsory": false, "teacher": "蔡宗廷", "location": "B01-106", "time": [[4, 9], [4, 10]]}, {"dept": "SO", "id": "A183", "target": "1", "name": " 性/別與法律", "point": "2", "limit": [], "compulsory": false, "teacher": "許震宇", "location": "B01-108", "time": [[2, 3], [2, 4]]}]
+[
+  {
+    "dept": "SO",
+    "id": "A033",
+    "target": "1",
+    "name": " 資產配置與信託規劃實務",
+    "point": "2",
+    "limit": [
+      
+    ],
+    "compulsory": false,
+    "teacher": "蔡宗廷",
+    "location": "B01-108",
+    "time": [
+      [
+        5,
+        9
+      ],
+      [
+        5,
+        10
+      ]
+    ]
+  },
+  {
+    "dept": "SO",
+    "id": "A034",
+    "target": "1",
+    "name": " 個人理財與投資",
+    "point": "2",
+    "limit": [
+      "****51",
+      "****52",
+      "****56",
+      "****55",
+      "****11",
+      "****12",
+      "****15",
+      "****17",
+      "****18",
+      "****21",
+      "****22",
+      "****23",
+      "****41",
+      "****61",
+      "****42",
+      "****43"
+    ],
+    "compulsory": false,
+    "teacher": "黃旭輝",
+    "location": "M01-102",
+    "time": [
+      [
+        3,
+        7
+      ],
+      [
+        3,
+        8
+      ]
+    ]
+  },
+  {
+    "dept": "SO",
+    "id": "A118",
+    "target": "1",
+    "name": " 理財與人生",
+    "point": "2",
+    "limit": [
+      
+    ],
+    "compulsory": false,
+    "teacher": "蔡宗廷",
+    "location": "B01-106",
+    "time": [
+      [
+        4,
+        9
+      ],
+      [
+        4,
+        10
+      ]
+    ]
+  },
+  {
+    "dept": "SO",
+    "id": "A183",
+    "target": "1",
+    "name": " 性/別與法律",
+    "point": "2",
+    "limit": [
+      
+    ],
+    "compulsory": false,
+    "teacher": "許震宇",
+    "location": "B01-108",
+    "time": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ]
+  }
+]
